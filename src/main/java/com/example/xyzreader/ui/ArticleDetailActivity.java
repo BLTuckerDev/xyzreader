@@ -3,12 +3,14 @@ package com.example.xyzreader.ui;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.LoaderManager;
+import android.content.Intent;
 import android.content.Loader;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v13.app.FragmentStatePagerAdapter;
+import android.support.v4.app.ShareCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -25,6 +27,7 @@ import com.example.xyzreader.data.ItemsContract;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 
 public class ArticleDetailActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {
@@ -155,6 +158,15 @@ public class ArticleDetailActivity extends AppCompatActivity implements LoaderMa
         if (itemId == mSelectedItemId) {
             updateUpButtonPosition();
         }
+    }
+
+
+    @OnClick(R.id.share_fab)
+    public void onFabClick(View view){
+        startActivity(Intent.createChooser(ShareCompat.IntentBuilder.from(this)
+                .setType("text/plain")
+                .setText("Check out this article")
+                .getIntent(), getString(R.string.action_share)));
     }
 
     private void updateUpButtonPosition() {
