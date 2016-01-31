@@ -133,6 +133,7 @@ public class ArticleDetailActivity extends AppCompatActivity implements LoaderMa
                 mCursor.moveToNext();
             }
             mStartId = 0;
+            updateImage(mCursor.getString(ArticleLoader.Query.PHOTO_URL), mSelectedItemId);
         }
 
     }
