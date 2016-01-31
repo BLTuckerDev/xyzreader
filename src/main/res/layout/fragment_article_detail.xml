@@ -5,8 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_marginTop="400dp"
-    android:padding="16dp"
-    >
+    android:padding="16dp">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -16,10 +15,10 @@
 
         <TextView
             android:id="@+id/article_title"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             style="@style/ArticleTitleText"
-            tools:text="Empire State of Mind"/>
+            tools:text="Agriculturist's Weekly Update, Delivered Once Daily, 24/7"/>
 
         <TextView
             android:id="@+id/article_byline"
