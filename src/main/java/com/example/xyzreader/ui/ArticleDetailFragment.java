@@ -7,6 +7,7 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.content.res.ResourcesCompat;
 import android.support.v4.widget.NestedScrollView;
 import android.text.Html;
 import android.text.format.DateUtils;
@@ -110,14 +111,13 @@ public final class ArticleDetailFragment extends Fragment implements LoaderManag
 
             titleTextView.setText(mCursor.getString(ArticleLoader.Query.TITLE));
 
+
             articleBylineTextView.setText(Html.fromHtml(
                     DateUtils.getRelativeTimeSpanString(
                             mCursor.getLong(ArticleLoader.Query.PUBLISHED_DATE),
                             System.currentTimeMillis(), DateUtils.HOUR_IN_MILLIS,
                             DateUtils.FORMAT_ABBREV_ALL).toString()
-                            + " by <font color='#ffffff'>"
-                            + mCursor.getString(ArticleLoader.Query.AUTHOR)
-                            + "</font>"));
+                            + " by " + mCursor.getString(ArticleLoader.Query.AUTHOR)));
 
             articleBody.setText(Html.fromHtml(mCursor.getString(ArticleLoader.Query.BODY)));
 
