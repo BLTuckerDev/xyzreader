@@ -1,8 +1,9 @@
-<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                                                 xmlns:app="http://schemas.android.com/apk/res-auto"
-                                                 android:layout_width="match_parent"
-                                                 android:layout_height="match_parent"
-                                                 android:fitsSystemWindows="true">
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true">
 
     <include
         android:id="@+id/app_bar"
@@ -21,9 +22,9 @@
         android:layout_marginEnd="16dp"
         android:layout_marginRight="16dp"
         android:contentDescription="@string/action_share"
+        android:elevation="4dp"
         android:src="@drawable/ic_share"
         app:fabSize="normal"
-        android:elevation="4dp"
         app:layout_anchor="@id/app_bar"
         app:layout_anchorGravity="bottom|right|end"
         />

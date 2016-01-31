@@ -10,5 +10,6 @@
     <string name="up">Up</string>
     <string name="article_banner_image">Article Banner Image</string>
     <string name="lorem_ipsum">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse rutrum dictum odio. Donec lobortis enim est, sit amet interdum metus egestas at. Nulla semper sit amet justo eget egestas. Donec consequat porta tortor non imperdiet. Cras erat mi, porttitor eu pretium sit amet, porttitor sit amet odio. Sed eleifend mi massa, id dapibus turpis auctor eu.</string>
+    <string name="article_list_item_content_description">article cover image</string>
 
 </resources>
