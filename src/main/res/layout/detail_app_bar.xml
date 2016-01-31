@@ -29,6 +29,7 @@
             android:fitsSystemWindows="true"
             android:scaleType="centerCrop"
             tools:src="@drawable/tools_image"
+            android:transitionName="@string/shared_image_transition_name"
             app:layout_collapseMode="parallax"
             />
 
