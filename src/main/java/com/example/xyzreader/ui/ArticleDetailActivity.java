@@ -35,13 +35,11 @@ public class ArticleDetailActivity extends AppCompatActivity implements LoaderMa
     private Cursor mCursor;
     private long mStartId;
 
-    private long mSelectedItemId;
+    protected long mSelectedItemId;
     private int mSelectedItemUpButtonFloor = Integer.MAX_VALUE;
-    private int mTopInset;
 
     private ViewPager mPager;
     private MyPagerAdapter mPagerAdapter;
-    private View mUpButtonContainer;
     private View mUpButton;
 
     @Bind(R.id.article_detail_image_view)
@@ -49,6 +47,11 @@ public class ArticleDetailActivity extends AppCompatActivity implements LoaderMa
 
     @Bind(R.id.article_detail_toolbar)
     Toolbar toolbar;
+
+
+    public ArticleDetailActivity() {
+    }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,10 +76,9 @@ public class ArticleDetailActivity extends AppCompatActivity implements LoaderMa
             @Override
             public void onPageScrollStateChanged(int state) {
                 super.onPageScrollStateChanged(state);
-                mUpButton.animate()
-                        .alpha((state == ViewPager.SCROLL_STATE_IDLE) ? 1f : 0f)
-                        .setDuration(300);
+                mUpButton.animate().alpha((state == ViewPager.SCROLL_STATE_IDLE) ? 1f : 0f).setDuration(300);
             }
+
 
             @Override
             public void onPageSelected(int position) {
@@ -85,6 +87,8 @@ public class ArticleDetailActivity extends AppCompatActivity implements LoaderMa
                 }
                 mSelectedItemId = mCursor.getLong(ArticleLoader.Query._ID);
                 updateUpButtonPosition();
+                updateImage(mCursor.getString(ArticleLoader.Query.PHOTO_URL), mSelectedItemId);
+
             }
         });
 
@@ -104,10 +108,12 @@ public class ArticleDetailActivity extends AppCompatActivity implements LoaderMa
         }
     }
 
+
     @Override
     public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
         return ArticleLoader.newAllArticlesInstance(this);
     }
+
 
     @Override
     public void onLoadFinished(Loader<Cursor> cursorLoader, Cursor cursor) {
@@ -129,24 +135,8 @@ public class ArticleDetailActivity extends AppCompatActivity implements LoaderMa
             mStartId = 0;
         }
 
-        ImageLoaderHelper.getInstance(this).getImageLoader()
-                .get(mCursor.getString(ArticleLoader.Query.PHOTO_URL), new ImageLoader.ImageListener() {
-                    @Override
-                    public void onResponse(ImageLoader.ImageContainer imageContainer, boolean b) {
-                        Bitmap bitmap =  imageContainer.getBitmap();
-                        if (bitmap != null) {
-                                articleDetailImageView.setImageBitmap(bitmap);
-                        }
-                    }
-
-                    @Override
-                    public void onErrorResponse(VolleyError volleyError) {
-
-                    }
-                });
-
-
     }
+
 
     @Override
     public void onLoaderReset(Loader<Cursor> cursorLoader) {
@@ -154,30 +144,47 @@ public class ArticleDetailActivity extends AppCompatActivity implements LoaderMa
         mPagerAdapter.notifyDataSetChanged();
     }
 
-    public void onUpButtonFloorChanged(long itemId, ArticleDetailFragment fragment) {
-        if (itemId == mSelectedItemId) {
-            updateUpButtonPosition();
-        }
-    }
-
 
     @OnClick(R.id.share_fab)
-    public void onFabClick(View view){
+    @SuppressWarnings("unused")
+    public void onFabClick(View view) {
         startActivity(Intent.createChooser(ShareCompat.IntentBuilder.from(this)
                 .setType("text/plain")
                 .setText("Check out this article")
                 .getIntent(), getString(R.string.action_share)));
     }
 
+
     private void updateUpButtonPosition() {
-        int upButtonNormalBottom = mTopInset + mUpButton.getHeight();
+        int upButtonNormalBottom = mUpButton.getHeight();
         mUpButton.setTranslationY(Math.min(mSelectedItemUpButtonFloor - upButtonNormalBottom, 0));
     }
+
+    private void updateImage(final String photoUrl, final long selectedId) {
+
+        ImageLoaderHelper.getInstance(this).getImageLoader().get(photoUrl, new ImageLoader.ImageListener() {
+            @Override
+            public void onResponse(ImageLoader.ImageContainer imageContainer, boolean b) {
+                Bitmap bitmap = imageContainer.getBitmap();
+                if (bitmap != null && mSelectedItemId == selectedId) {
+                    articleDetailImageView.setImageBitmap(bitmap);
+                }
+            }
+
+
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+
+            }
+        });
+    }
+
 
     private class MyPagerAdapter extends FragmentStatePagerAdapter {
         public MyPagerAdapter(FragmentManager fm) {
             super(fm);
         }
+
 
         @Override
         public void setPrimaryItem(ViewGroup container, int position, Object object) {
@@ -188,11 +195,13 @@ public class ArticleDetailActivity extends AppCompatActivity implements LoaderMa
             }
         }
 
+
         @Override
         public Fragment getItem(int position) {
             mCursor.moveToPosition(position);
             return ArticleDetailFragment.newInstance(mCursor.getLong(ArticleLoader.Query._ID));
         }
+
 
         @Override
         public int getCount() {

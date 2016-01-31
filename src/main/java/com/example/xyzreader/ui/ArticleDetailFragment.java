@@ -4,7 +4,9 @@ import android.app.Fragment;
 import android.app.LoaderManager;
 import android.content.Loader;
 import android.database.Cursor;
+import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.NestedScrollView;
 import android.text.Html;
 import android.text.format.DateUtils;
@@ -15,6 +17,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.ImageLoader;
 import com.example.xyzreader.R;
 import com.example.xyzreader.data.ArticleLoader;
 
@@ -30,11 +34,8 @@ public final class ArticleDetailFragment extends Fragment implements LoaderManag
     private Cursor mCursor;
     private long mItemId;
 
-
     @Bind(R.id.article_detail_scrollview)
     NestedScrollView scrollView;
-
-    //fab
 
     @Bind(R.id.article_title)
     TextView titleTextView;
@@ -84,8 +85,7 @@ public final class ArticleDetailFragment extends Fragment implements LoaderManag
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-            Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         View rootView = inflater.inflate(R.layout.fragment_article_detail, container, false);
         ButterKnife.bind(this, rootView);
@@ -121,14 +121,14 @@ public final class ArticleDetailFragment extends Fragment implements LoaderManag
 
             articleBody.setText(Html.fromHtml(mCursor.getString(ArticleLoader.Query.BODY)));
 
-
         } else {
             scrollView.setVisibility(View.GONE);
             titleTextView.setText("N/A");
-            articleBylineTextView.setText("N/A" );
+            articleBylineTextView.setText("N/A");
             articleBody.setText("N/A");
         }
     }
+
 
     @Override
     public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
