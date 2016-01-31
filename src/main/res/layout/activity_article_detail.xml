@@ -22,10 +22,11 @@
         android:layout_marginEnd="16dp"
         android:layout_marginRight="16dp"
         android:contentDescription="@string/action_share"
-        android:elevation="4dp"
         android:src="@drawable/ic_share"
         app:fabSize="normal"
         app:layout_anchor="@id/app_bar"
+        app:elevation="@dimen/fab_elevation"
+        app:pressedTranslationZ="@dimen/fab_elevated_elevation"
         app:layout_anchorGravity="bottom|right|end"
         />
 
